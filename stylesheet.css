@@ -35,7 +35,6 @@ body {
 
 #header a {
     float: right;
-    height: 100px;
 
     padding-top: 80px;
 }
@@ -59,7 +58,19 @@ body {
     box-shadow: #000000 1px 1px;
 }
 
-#menu a {
+
+
+a:visited, a:link {
     text-decoration: none;
     color: #000000;
 }
+
+a:hover {
+    color: #ffffff;
+}
+
+
+
+
+
+
