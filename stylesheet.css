@@ -1,15 +1,65 @@
 body {
-	background-color: #A4CFDE;
-}
-
-h1 {
-	color: #2C3336;
-	background-color: #B4C6CC;
-	border-bottom: 2px solid black;
-	text-align: left;
+	background-color: #374D5C;
+	overflow-x: hidden;
 }
 
 #Links {
 	text-align: right;
 	font-size: 15px;
+}
+
+/* Header Stuff*/
+#header {
+	background-color: #CF7A30;
+
+	margin-left: -10px;
+	margin-right: -10px;
+	margin-top: -1px;
+	margin-bottom: 0px;
+
+	padding-left: 20px;
+	padding-right: 20px;
+	padding-top: 30px;
+	padding-bottom: 0px;
+
+	height: 100px;
+
+}
+
+#header h1 {
+    width: 200px;
+    float: left;
+
+    padding-top: 20px;
+}
+
+#header a {
+    float: right;
+    height: 100px;
+
+    padding-top: 80px;
+}
+
+/* End header stuff*/
+
+
+#menu {
+    background-color: #498AB8;
+    border-color: #000000;
+    border-width: 2px;
+    border-radius: 3px;
+    border-style: solid;
+
+    width: 125px;
+    position: fixed;
+
+    text-decoration: none;
+    margin-left: 10px;
+
+    box-shadow: #000000 1px 1px;
+}
+
+#menu a {
+    text-decoration: none;
+    color: #000000;
 }
