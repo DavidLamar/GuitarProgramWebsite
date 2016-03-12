@@ -22,25 +22,38 @@
 			<a href="">About</a>
 		</div>
 
-		<div id="menu">
-            <ul>
-                <li>
-                    <a href="">Chords</a>
-                </li>
-                <li>
-                    <a href="">Settings</a>
-                </li>
-                <li>
-                    <a href="">Stuff</a>
-                </li>
-                <li>
-                    <a href="">Stuff</a>
-                </li>
-            </ul>
 
-		</div>
+        <br></br>
 
-    <br></br>
+        <div class="guitarSettings">
+            <div id="chordSelect" class="selectLeft">
+                Chord:
+                <select id="note">
+                    <option value="A">A</option>
+                </select>
+            </div>
+
+            <div id="stringSelect" class="selectLeft">
+                Strings:
+                <select id="strings">
+                    <option value="6">6</option>
+                </select>
+            </div>
+
+            <div id="tuningSelect" class="selectLeft">
+                Tuning:
+                <select id="tuning">
+                    <option value="Standard">Standard</option>
+                </select>
+            </div>
+
+            <div id="nextFingering" class="selectRight">
+                <button id="btn_nextFingering">Next Fingering</button>
+            </div>
+        </div>
+
+        <br></br>
+
         <div class="guitar" id="guitar">
         </div>
 

@@ -10,6 +10,15 @@ var toggleFinger = function(fretString){
     }
 }
 
+var toggleSelf = function(){
+    var currentColor = $(this).css("background-color");
+    if(currentColor === "rgb(0, 0, 0)"){
+        $(this).css("background-color", "white");
+    } else {
+        $(this).css("background-color", "black");
+    }
+}
+
 var blackenStrings = function(){
     for(i = 0; i < frets; i++){
         for(j = 0; j < strings; j++){
@@ -44,7 +53,11 @@ $(document).ready(
             }
         }
 
-        toggleFinger("fret0string0");
-        blackenStrings();
+        //This is for testing of the toggles
+        $(".string").click(
+            function(event){
+                toggleFinger(event.target.id);
+            }
+        );
     }
 );

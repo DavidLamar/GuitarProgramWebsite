@@ -42,23 +42,6 @@ body {
 /* End header stuff*/
 
 
-#menu {
-    background-color: #498AB8;
-    border-color: #000000;
-    border-width: 2px;
-    border-radius: 3px;
-    border-style: solid;
-
-    width: 125px;
-    position: fixed;
-
-    text-decoration: none;
-    margin-left: 10px;
-
-    box-shadow: #000000 1px 1px;
-}
-
-
 
 a:visited, a:link {
     text-decoration: none;
@@ -87,6 +70,23 @@ a:hover {
     background-color: black;
     border: 1px solid #BF954D;
     margin: auto;
+}
+
+.guitarSettings {
+    margin: auto;
+    width: 60%;
+    height: 20px;
+    background-color: #31778C;
+    padding: 5px;
+    border-radius: 3px;
+}
+
+.selectLeft {
+    float: left;
+}
+
+.selectRight {
+    float: right;
 }
 
 
