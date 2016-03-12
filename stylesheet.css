@@ -83,6 +83,7 @@ a:hover {
 
 .selectLeft {
     float: left;
+    padding: 2px;
 }
 
 .selectRight {
