@@ -69,6 +69,26 @@ a:hover {
     color: #ffffff;
 }
 
+.guitar {
+    width: 800px;
+    height: 150px;
+    background-color: #BF954D;
+    margin: auto;
+}
+
+.fret {
+    border: 1px solid black;
+    height: 150px;
+    float: left;
+}
+
+.string {
+    height: 5px;
+    background-color: black;
+    border: 1px solid #BF954D;
+    margin: auto;
+}
+
 
 
 

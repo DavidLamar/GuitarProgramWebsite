@@ -5,132 +5,10 @@
 	<head>
 		<title>Guitar Helper</title>
 		<link type="text/css" rel="stylesheet" href="stylesheet.css"/>
-
-		<script>
-		    //NOTE OBJECT:
-		    //(Maybe update this later to use objects as enums instead of strings?)
-		    var Note = {
-                notes: ["A_FLAT", "A", "A_SHARP",
-                        "B_FLAT", "B", "B_SHARP",
-                        "C_FLAT", "C", "C_SHARP",
-                        "D_FLAT", "D", "D_SHARP",
-                        "E_FLAT", "E", "E_SHARP",
-                        "F_FLAT", "F", "F_SHARP",
-                        "G_FLAT", "G", "G_SHARP"]
-
-                getAlternate = function(note){
-                    switch(){
-                        case 'A_FLAT':
-                            return "G_SHARP";
-                        case 'A':
-                            return "A";
-                        case 'A_SHARP':
-                            return "B_FLAT";
+		<script type='text/javascript' src='jquery-1.12.1.js'></script>
+		<script  type='text/javascript' src='guitar_script.js'></script>
 
 
-                        case 'B_FLAT':
-                            return "A_SHARP";
-                        case 'B':
-                            return "C_FLAT";
-                        case 'B_SHARP':
-                            return "C";
-
-
-                        case 'C_FLAT':
-                            return "B";
-                        case 'C':
-                            return "B_SHARP";
-                        case 'C_SHARP':
-                            return "D_FLAT";
-
-
-                        case 'D_FLAT':
-                            return "C_SHARP";
-                        case 'D':
-                            return "D";
-                        case 'D_SHARP':
-                            return "E_FLAT";
-
-
-                        case 'E_FLAT':
-                            return "D_SHARP";
-                        case 'E':
-                            return "F_FLAT";
-                        case 'E_SHARP':
-                            return "F";
-
-
-                        case 'F_FLAT':
-                            return "E";
-                        case 'F':
-                            return "E_SHARP";
-                        case 'F_SHARP':
-                            return "G_FLAT";
-
-
-                        case 'G_FLAT':
-                            return "F_SHARP";
-                        case 'G':
-                            return "G";
-                        case 'G_SHARP':
-                            return "A_FLAT";
-
-
-                        default:
-                            return "";
-                    }
-                }
-		    }
-
-
-		    //NOTE ARRAY OBJECT:
-		    var NoteArray = function(notes){
-                this.notes = notes;
-
-                this.noteAt = function(pos){
-                    return this.notes[pos]
-                }
-
-                this.indexOf() = function(note){
-                    for(i = 0; i < notes.length; i++){
-                        if(note === notes[i]){
-                            return i;
-                        }
-                    }
-
-                    return -1;
-                }
-
-                this.length = function(){
-                    return notes.length;
-                }
-		    }
-
-		    var Chord = function(chord, name){
-                this.chord = chord;
-                this.name = name;
-
-                this.contains = function(note){
-                    for(i = 0; i < chord.length; i++){
-                        if(chord.noteAt(i) === note || chord.noteAt(i) === note.getAlternate(note)){
-                            return true;
-                        }
-                    }
-
-                    return false;
-                }
-
-                this.getName = function(){
-                    return this.name;
-                }
-		    }
-
-
-
-
-
-
-		</script>
 	</head>
 
 <!-- Begin Body -->
@@ -162,14 +40,11 @@
 
 		</div>
 
-		<br></br>
-		<br></br><br></br>
-		<br></br><br></br>
-		<br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br>
-		<br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br>
-		<br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br>
-		<br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br>
-		<br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br><br></br>
+    <br></br>
+        <div class="guitar" id="guitar">
+        </div>
+
+
 	</body>
 
 </html>
