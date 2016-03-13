@@ -9,6 +9,10 @@ var fretBoard;
 var stringValues;
 var stringNotes;
 
+var chords;
+
+var testvar = 0;
+
 
 //----------------------------String/Fret Manipulation--------------------------------------------
 
@@ -139,6 +143,10 @@ var NoteArray = function(n, name){
 		return this.notes[pos];
 	}
 	
+	this.getName = function(){
+		return this.name;
+	}
+	
 	this.contains = function(n){
 		for(var i = 0; i < this.notes.length; i++){
 			if(this.notes[i] === n || this.notes[i] === Note.getAlternate(n)){
@@ -247,20 +255,44 @@ currentFingering = 0;
 //This is just for standard tuning; Change this later when users can enter in different tunings
 tuning = new NoteArray([Note.E, Note.B, Note.G, Note.D, Note.A, Note.E]);
 NOTE = new NoteArray([Note.A, Note.A_SHARP, Note.B, Note.C, Note.C_SHARP, Note.D, Note.D_SHARP, Note.E, Note.F, Note.F_SHARP, Note.G, Note.G_SHARP]);
+chords = [
+              new NoteArray([Note.A, Note.C_SHARP, Note.E], "A"),
+              new NoteArray([Note.A, Note.C, Note.E], "A Minor"),
+              new NoteArray([Note.A_SHARP, Note.D, Note.E_SHARP], "A Sharp"),
+              new NoteArray([Note.A_SHARP, Note.C_SHARP, Note.E_SHARP], "A Sharp Minor"),
+              
+              new NoteArray([Note.B, Note.D_SHARP, Note.F_SHARP], "B"),
+              new NoteArray([Note.B, Note.D, Note.F_SHARP], "B Minor"),
+              
+              new NoteArray([Note.C, Note.E, Note.G], "C"),
+              new NoteArray([Note.C, Note.E_FLAT, Note.G], "C Minor"),
+              new NoteArray([Note.C_SHARP, Note.E_SHARP, Note.G_SHARP], "C Sharp"),
+              new NoteArray([Note.C_SHARP, Note.E, Note.G_SHARP], "C Sharp Minor"),
+              
+              new NoteArray([Note.D, Note.F_SHARP, Note.A], "D"),
+              new NoteArray([Note.D, Note.F, Note.A], "D Minor"),
+              new NoteArray([Note.D_SHARP, Note.G, Note.A_SHARP], "D Sharp"),
+              new NoteArray([Note.D_SHARP, Note.F_SHARP, Note.A_SHARP], "D Sharp Minor"),
+              
+              new NoteArray([Note.E, Note.G_SHARP, Note.B], "E"),
+              new NoteArray([Note.E, Note.G, Note.B], "E Minor"),
+              
+              new NoteArray([Note.F, Note.A, Note.C], "F"),
+              new NoteArray([Note.F, Note.A_FLAT, Note.C], "F Minor"),
+              new NoteArray([Note.F_SHARP, Note.A_SHARP, Note.C_SHARP], "F Sharp"),
+              new NoteArray([Note.F_SHARP, Note.A, Note.C_SHARP], "F Sharp Minor"),
+              
+              new NoteArray([Note.G, Note.B, Note.D], "G"),
+              new NoteArray([Note.G, Note.B_FLAT, Note.D], "G Minor"),
+              new NoteArray([Note.G_SHARP, Note.B_SHARP, Note.D_SHARP], "G Sharp"),
+              new NoteArray([Note.G_SHARP, Note.B, Note.D_SHARP], "G Sharp Minor"),
+              ];
 
 $(document).ready(
     function(){
-    	
-    	
 
     	stringNotes = initializeFretBoard(strings, frets);
-    	//This tests it on A
-    	stringValues = setChord(new NoteArray([Note.A, Note.C_SHARP, Note.E], "A"), strings, frets);
-    
-    	
-    	
-    	
-    	
+	
         var guitarWidth = $(".guitar").css("width");
         guitarWidth = guitarWidth.substring(0, guitarWidth.length - 2);
 
@@ -285,11 +317,16 @@ $(document).ready(
 
 //----------------------------All board manipulation has to happen after this point----------------------        
         
-        //THIS IS FOR TESTING - Update board with A chord
-        updateFretBoard(stringValues);
-        
-        
-        
+        $(document).keypress(
+        		function(key){
+        			if(key.which === 13){
+        				stringValues = setChord(chords[testvar % chords.length], strings, frets);
+        				updateFretBoard(stringValues);
+        				testvar++;
+        				console.log("Current Chord: " + chords[(testvar - 1) % chords.length].getName());
+        			}
+        		}
+        );
 
     }
 );

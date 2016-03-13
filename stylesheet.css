@@ -104,6 +104,23 @@ a:hover {
     float: right;
 }
 
+#strings {
+	width: 30px;
+}
+
+#frets {
+	width: 30px;
+}
+
+#info {
+	width: 75%;	
+	margin: auto;
+	border: 1px solid black;
+	padding: 10px;
+	border-radius: 5px;
+	background-color: #6EAAB8;
+}
+
 
 
 
