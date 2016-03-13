@@ -1,3 +1,13 @@
+var frets;
+var strings;
+var currentFingering;
+var fretBoard;
+var tuning;
+var NOTE;
+var stringValues;
+
+
+
 //----------------------------String/Fret Manipulation--------------------------------------------
 
 //Handles toggling the given fret and string
@@ -14,13 +24,121 @@ var blackenStrings = function(){
     }
 }
 
-//--------------------------------------Fingering Calculations-------------------------------------
+//--------------------------------------Fingering Calculations - Overhead-------------------------
 
-var Note = function(note, name){
-	this.note = note;
-	this.name = name;
+//Handles all the notes and getting alternate fingerings;
+//We need alternate fingerings because we wont know if the user will use
+//say, A sharp or B flat. 
+var Note = {
+	A_FLAT : "A Flat",
+	A : "A",
+	A_SHARP : "A sharp",
+	
+	B_FLAT : "B Flat",
+	B : "B",
+	B_SHARP : "B sharp",
+	
+	C_FLAT : "C Flat",
+	C : "C",
+	C_SHARP : "C sharp",
+	
+	D_FLAT : "D Flat",
+	D : "D",
+	D_SHARP : "D sharp",
+	
+	E_FLAT : "E Flat",
+	E : "E",
+	E_SHARP : "E sharp",
+	
+	F_FLAT : "F Flat",
+	F : "F",
+	F_SHARP : "F sharp",
+	
+	G_FLAT : "G Flat",
+	G : "G",
+	G_SHARP : "G sharp",
+	
+	getAlternate : function(n){
+		switch(n){
+			case A_FLAT:
+				return G_SHARP;
+			case A:
+				return A;
+			case A_SHARP:
+				return B_FLAT;
+				
+			case B_FLAT:
+				return A_SHARP;
+			case B:
+				return C_FLAT;
+			case B_SHARP:
+				return C;
+				
+			case C_FLAT:
+				return B;
+			case C:
+				return B_SHARP;
+			case C_SHARP:
+				return D_FLAT;
+				
+			case D_FLAT:
+				return C_SHARP;
+			case D:
+				return D;
+			case D_SHARP:
+				return E_FLAT;
+				
+			case E_FLAT:
+				return D_SHARP;
+			case E:
+				return F_FLAT;
+			case E_SHARP:
+				return F;
+				
+			case F_FLAT:
+				return E;
+			case F:
+				return E_SHARP;
+			case F_SHARP:
+				return G_FLAT;
+				
+			case G_FLAT:
+				return F_SHARP;
+			case G:
+				return G;
+			case G_SHARP:
+				return A_FLAT;
+			default:
+				return "";
+		}
+	}
 }
 
+
+
+
+var NoteArray = function(n){
+	var notes = [];
+	this.notes = n;
+	this.indexOf = function(n){
+		for(i = 0; i < notes.length; i++){
+			if(n === notes[i]){
+				return i;
+			}
+		}
+		return -1;
+	}
+	
+	this.length = function(){
+		return notes.length;
+	}
+	
+	this.noteAt = function(pos){
+		return notes[pos];
+	}
+}
+
+//Checks if an array is all false
 var allFalse = function(array){
 	for(var b in array){
 		if(b){
@@ -30,6 +148,7 @@ var allFalse = function(array){
 	return true;
 }
 
+//Checks if an array is all trye
 var allTrue = function(array){
 	for(var b in array){
 		if(!b){
@@ -39,12 +158,22 @@ var allTrue = function(array){
 	return true;
 }
 
-var initializeFretBoard = function(){
-	var returnBoard = [];
-	for(i = 0; i < frets; i++){
-		for(j = 0; j < strings; j++){
-			
+
+//-------------------------------------------Fingering Calculations-------------------------------------
+
+var Fingering = function(numStrings, numFrets){
+	var board = [];
+	for(i = 0; i < numStrings; i++){
+		for(j = 0; j < numFrets; j++){
+			board[i][j] = false;
 		}
+	}
+	
+	this.setPos = function(string, fret, value){
+		board[string][fret] = value;
+	}
+	this.getPos = function(string, fret){
+		return board[string][fret];
 	}
 }
 
@@ -87,11 +216,15 @@ var getFingerings = function(){
 
 //---------------------------------------Document Javascript----------------------------------------
 
-var frets = 12;
-var strings = 6;
-var currentFingering = 0;
-var fretBoard = [];
-var tuning = [new Note("E", "E"), new Note("B", "B"), new Note("G", "G"), new Note("D", "D"), new Note("A"), new Note("E", "E")];
+//Instance Variables
+frets = 12;
+strings = 6;
+currentFingering = 0;
+fretBoard = [];
+//This is just for standard tuning; Change this later when users can enter in different tunings
+tuning = new NoteArray([Note.E, Note.B, Note.G, Note.D, Note.A, Note.E]);
+NOTE = new NoteArray([Note.A, Note.A_SHARP, Note.B, Note.C, Note.C_SHARP, Note.D, Note.D_SHARP, Note.E, Note.F, Note.F_SHARP, Note.G, Note.G_SHARP]);
+stringValues = [];
 
 $(document).ready(
     function(){
