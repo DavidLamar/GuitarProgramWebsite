@@ -26,30 +26,23 @@
         <div class="guitarSettings">
             <div id="chordSelect" class="selectLeft">
                 Chord:
-                <select id="note">
-                    <option value="A">A</option>
-                    <option value="B">B</option>
-                    <option value="C">C</option>
-                    <option value="D">D</option>
-                    <option value="E">E</option>
-                    <option value="F">F</option>
-                    <option value="G">G</option>
+                <select id="note" onchange="onSelectChange(this)">
                 </select>
             </div>
 
             <div id="stringSelect" class="selectLeft">
                 Strings:
-                <input id="strings" value="6"></input>
+                <input id="strings" value="6" disabled></input>
             </div>
 
             <div id="fretSelect" class="selectLeft">
                 Frets:
-                <input id="frets" value="12"></input>
+                <input id="frets" value="12" onchange="onFretChange(this)"></input>
             </div>
 
             <div id="tuningSelect" class="selectLeft">
                 Tuning:
-                <select id="tuning">
+                <select id="tuning" disabled>
                     <option value="Standard">Standard</option>
                 </select>
             </div>

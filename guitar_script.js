@@ -2,6 +2,7 @@ var frets;
 var strings;
 
 var currentFingering;
+var fingerings;
 var tuning;
 var NOTE;
 
@@ -160,8 +161,8 @@ var NoteArray = function(n, name){
 
 //Checks if an array is all false
 var allFalse = function(array){
-	for(var b in array){
-		if(b){
+	for(var i = 0; i < array.length; i++){
+		if(array[i]){
 			return false;
 		}
 	}
@@ -170,8 +171,8 @@ var allFalse = function(array){
 
 //Checks if an array is all trye
 var allTrue = function(array){
-	for(var b in array){
-		if(!b){
+	for(var i = 0; i < array.length; i++){
+		if(!array[i]){
 			return false;
 		}
 	}
@@ -194,6 +195,18 @@ var Fingering = function(numStrings, numFrets){
 	}
 	this.getPos = function(string, fret){
 		return board[string][fret];
+	}
+	this.getBoard = function(){
+		return board;
+	}
+	
+	this.reset = function(){
+		for(var i = 0; i < numStrings; i++){
+			board[i] = [];
+			for(var j = 0; j < numFrets; j++){
+				board[i][j] = false;
+			}
+		}
 	}
 }
 
@@ -227,22 +240,188 @@ var setChord = function(newNoteArray, strings, frets){
 }
 
 var getFingerings = function(){
+	var chordComplete = [];
+	for(var i = 0; i < strings; i++){
+		chordComplete[i] = false;
+	}
+	var temp = new Fingering(strings, frets);
+	var fingerings = [];
+	
+	var fretCount = 0;
+	var noteNumber = 0;
+	var sameCheck = false;
+	var complete = false
+	var barCheck = false;
+	
+	for(var fret = 0; fret < frets; fret++){
+		fretCount++;
+		sameCheck = false;
+		
+		if(!allFalse(chordComplete)){
+			barCheck = true;
+		}
+		
+		for(var str = 0; str < strings; str++){
+			if(fret > frets - 1){
+				break;
+			}
+			
+			if(stringValues[str][fret]){
+				if(!chordComplete[str]){
+					temp.setPos(str, fret, true);
+					if(!sameCheck || barCheck){
+						noteNumber++;
+					}
+					chordComplete[str] = true;
+					sameCheck = true;
+				}
+			}
+		}
+		
+		if(noteNumber > 4 || fretCount > 4){
+			temp = new Fingering(strings, frets);
+			chordComplete = [];
+			for(var i = 0; i < strings; i++){
+				chordComplete[i] = false;
+			}
+			
+			sameCheck = false;
+			noteNumber = 0;
+			fret -= (fretCount - 1);
+			fretCount = 0;
+			complete = false;
+			barCheck = false;
+		}
+		
+		complete = allTrue(chordComplete);
+		
+		if(complete){
+			chordComplete = [];
+			for(var i = 0; i < strings; i++){
+				chordComplete[i] = false;
+			}
+			
+			//Change this later?
 
+			fingerings[fingerings.length] = temp;
+
+			temp = new Fingering(strings, frets);
+			
+			sameCheck = false;
+			noteNumber = 0;
+			fret -= (fretCount - 1);
+			fretCount = 0;
+			complete = false;
+			barCheck = false;
+		}
+	}
+	
+	return fingerings;
 }
 
+
+
+
+//----------------------------------------Interface integration-------------------------------------
 
 var updateFretBoard = function(values){
 	blackenStrings();
 	for(var i = 0; i < values.length; i++){
-		for(var j = 0; j < values[i].length; j++){
-			if(stringValues[i][j]){
+		for(var j = 1; j < values[i].length + 1; j++){
+			if(values[i][j]){
 				toggleFinger("fret" + (j - 1) + "string" + i);
 			}
 		}
 	}
 }
 
+var initializeChords = function(){
+	var selector = document.getElementById('note');
+	//Add cookie support here later
+	for(var i = 0; i < chords.length; i++){
+		var option = document.createElement('option');
+		option.text = chords[i].getName();
+		option.value = chords[i].getName();
+		selector.add(option, selector[selector.length]);
+	}
+}
 
+var onSelectChange = function(e){
+	for(var i = 0; i < chords.length; i++){
+		if(chords[i].getName() === e.value){
+			currentFingering = 0;
+			stringValues = setChord(chords[i], strings, frets);
+			fingerings = getFingerings();
+			updateFretBoard(fingerings[0].getBoard());
+		}
+	}
+}
+
+var onNextFingering = function(){
+	currentFingering++;
+	if(currentFingering >= fingerings.length){
+		currentFingering = 0;
+	}
+	updateFretBoard(fingerings[currentFingering].getBoard());
+	
+	console.log('Did it');
+}
+
+var onFretChange = function(e){
+	if(isNaN(e.value)){
+		alert("What you entered is not a number!");
+		e.value = 12;
+		createFretBoard();
+		return;
+	}
+	if(e.value < 5 || e.value > 24){
+		alert("Sorry; You can only have frets from 5 to 24.");
+		e.value = 12;
+		createFretBoard();
+		return;
+	}
+	
+	
+	frets = e.value;
+	currentFingering = 0;
+	createFretBoard();
+	
+}
+
+var createFretBoard = function(){
+	$('.guitar').html('');
+	
+	stringNotes = initializeFretBoard(strings, frets);
+	initializeChords();
+	stringValues = setChord(chords[0], strings, frets);
+	fingerings = getFingerings();
+	console.log(fingerings[0].getBoard());
+	
+
+    var guitarWidth = $(".guitar").css("width");
+    guitarWidth = guitarWidth.substring(0, guitarWidth.length - 2);
+
+    //The 2 here is for the width of the border of each fret
+    var fretWidth = (guitarWidth / frets) - 2;
+
+
+    var guitarHeight = $(".guitar").css("height");
+    guitarHeight = guitarHeight.substring(0, guitarHeight.length-2);
+
+    //the +5 is for the height of each string(5px)
+    //we divide by two because we're using top and bottom padding; left and right aren't being used
+    var stringMargin = ((guitarHeight / strings) + 5)/2;
+    
+    for(i = 0; i < frets; i++){
+
+        $('.guitar').append('<div class=\'fret\' id=\'fret' + i + '\' style=\'width: ' + fretWidth + 'px\'></div>');
+        for(j = 0; j < strings; j++){
+            $('#fret' + i).append('<div class=\'string\' id=\'fret' + i + 'string' + j + '\' style=\'margin-top: ' + stringMargin + 'px; margin-bottom: ' + stringMargin + 'px;\'></div>');
+        }
+    }
+    
+    updateFretBoard(fingerings[0].getBoard());
+}
 
 
 
@@ -291,42 +470,16 @@ chords = [
 $(document).ready(
     function(){
 
-    	stringNotes = initializeFretBoard(strings, frets);
-	
-        var guitarWidth = $(".guitar").css("width");
-        guitarWidth = guitarWidth.substring(0, guitarWidth.length - 2);
-
-        //The 2 here is for the width of the border of each fret
-        var fretWidth = (guitarWidth / frets) - 2;
-
-
-        var guitarHeight = $(".guitar").css("height");
-        guitarHeight = guitarHeight.substring(0, guitarHeight.length-2);
-
-        //the +5 is for the height of each string(5px)
-        //we divide by two because we're using top and bottom padding; left and right aren't being used
-        var stringMargin = ((guitarHeight / strings) + 5)/2;
-        
-        for(i = 0; i < frets; i++){
-
-            $('.guitar').append('<div class=\'fret\' id=\'fret' + i + '\' style=\'width: ' + fretWidth + 'px\'></div>');
-            for(j = 0; j < strings; j++){
-                $('#fret' + i).append('<div class=\'string\' id=\'fret' + i + 'string' + j + '\' style=\'margin-top: ' + stringMargin + 'px; margin-bottom: ' + stringMargin + 'px;\'></div>');
-            }
-        }
+    	createFretBoard();
 
 //----------------------------All board manipulation has to happen after this point----------------------        
         
-        $(document).keypress(
-        		function(key){
-        			if(key.which === 13){
-        				stringValues = setChord(chords[testvar % chords.length], strings, frets);
-        				updateFretBoard(stringValues);
-        				testvar++;
-        				console.log("Current Chord: " + chords[(testvar - 1) % chords.length].getName());
-        			}
-        		}
-        );
+		$('#btn_nextFingering').click(
+				function(){
+					onNextFingering();
+				}
+		);
+        
 
     }
 );
