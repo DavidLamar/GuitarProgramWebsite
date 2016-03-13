@@ -1,32 +1,97 @@
-var frets = 12;
-var strings = 6;
+//----------------------------String/Fret Manipulation--------------------------------------------
 
+//Handles toggling the given fret and string
 var toggleFinger = function(fretString){
-    var currentColor = $('#' + fretString).css("background-color");
-    if(currentColor === "rgb(0, 0, 0)"){
-        $('#' + fretString).css("background-color", "white");
-    } else {
-        $('#' + fretString).css("background-color", "black");
-    }
+    $('#' + fretString).toggleClass("stringHighlight");
 }
 
-var toggleSelf = function(){
-    var currentColor = $(this).css("background-color");
-    if(currentColor === "rgb(0, 0, 0)"){
-        $(this).css("background-color", "white");
-    } else {
-        $(this).css("background-color", "black");
-    }
-}
-
+//blackens all the strings
 var blackenStrings = function(){
     for(i = 0; i < frets; i++){
         for(j = 0; j < strings; j++){
-            $('#fret' + i + 'string' + j).css("background-color", "black");
+            $('#fret' + i + 'string' + j).removeClass("stringHighlight");
         }
     }
 }
 
+//--------------------------------------Fingering Calculations-------------------------------------
+
+var Note = function(note, name){
+	this.note = note;
+	this.name = name;
+}
+
+var allFalse = function(array){
+	for(var b in array){
+		if(b){
+			return false;
+		}
+	}
+	return true;
+}
+
+var allTrue = function(array){
+	for(var b in array){
+		if(!b){
+			return false;
+		}
+	}
+	return true;
+}
+
+var initializeFretBoard = function(){
+	var returnBoard = [];
+	for(i = 0; i < frets; i++){
+		for(j = 0; j < strings; j++){
+			
+		}
+	}
+}
+
+var getFingerings = function(){
+	var chordComplete = [];
+	var fingerings = [];
+	var tempFingering = [];
+	
+	var fretCount = 0;
+	var chordNumber = 0;
+	
+	var sameCheck = false;
+	var complete = false;
+	var barCheck = false;
+	
+	//initialize chordComplete to all false:
+	for(i = 0; i < strings; i++){
+		chordComplete[i] = false;
+	}
+	
+	for(fret = 0; fret < frets; fret++){
+		fretCount++;
+		sumCheck = false; //Resets sumCheck because we're not on the same fret anymore
+		
+		if(!allFalse(chordComplete)){
+			barCheck = true;
+		}
+		
+		
+	}
+	
+	
+	
+}
+
+
+
+
+
+
+//---------------------------------------Document Javascript----------------------------------------
+
+var frets = 12;
+var strings = 6;
+var currentFingering = 0;
+var fretBoard = [];
+var tuning = [new Note("E", "E"), new Note("B", "B"), new Note("G", "G"), new Note("D", "D"), new Note("A"), new Note("E", "E")];
 
 $(document).ready(
     function(){
@@ -58,6 +123,15 @@ $(document).ready(
             function(event){
                 toggleFinger(event.target.id);
             }
+        );
+        
+        //So is this
+        $(document).keypress(
+        		function(key){
+        			if(key.which === 13 ){
+        				blackenStrings();
+        			}
+        		}
         );
     }
 );

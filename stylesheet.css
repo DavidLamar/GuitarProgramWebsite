@@ -10,7 +10,7 @@ body {
 
 /* Header Stuff*/
 #header {
-	background-color: #CF7A30;
+	background-color: #676982;
 
 	margin-left: -10px;
 	margin-right: -10px;
@@ -55,12 +55,16 @@ a:hover {
 .guitar {
     width: 800px;
     height: 150px;
-    background-color: #BF954D;
+    background-color: #6E5B43;
     margin: auto;
+    border: 1px solid #94AFB0;
+    border-left-width: 5px; 
 }
 
 .fret {
-    border: 1px solid black;
+    border: 1px solid #94AFB0;
+    border-top: 0px;
+    border-bottom: 0px;
     height: 150px;
     float: left;
 }
@@ -68,8 +72,16 @@ a:hover {
 .string {
     height: 5px;
     background-color: black;
-    border: 1px solid #BF954D;
+    border: 1px solid #6E5B43;
     margin: auto;
+}
+
+.stringHighlight {
+    height: 5px;
+    background-color: white;
+    border: 1px solid #6E5B43;
+    margin: auto;
+    box-shadow: 0 0 7px #A3D6D9;
 }
 
 .guitarSettings {
