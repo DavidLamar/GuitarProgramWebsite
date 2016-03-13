@@ -1,18 +1,13 @@
 var frets;
 var strings;
-
 var currentFingering;
 var fingerings;
 var tuning;
 var NOTE;
-
 var fretBoard;
 var stringValues;
 var stringNotes;
-
 var chords;
-
-var testvar = 0;
 
 
 //----------------------------String/Fret Manipulation--------------------------------------------
@@ -235,7 +230,6 @@ var setChord = function(newNoteArray, strings, frets){
 			}
 		}
 	}
-	
 	return sv;
 }
 
@@ -246,7 +240,6 @@ var getFingerings = function(){
 	}
 	var temp = new Fingering(strings, frets);
 	var fingerings = [];
-	
 	var fretCount = 0;
 	var noteNumber = 0;
 	var sameCheck = false;
@@ -269,7 +262,7 @@ var getFingerings = function(){
 			if(stringValues[str][fret]){
 				if(!chordComplete[str]){
 					temp.setPos(str, fret, true);
-					if(!sameCheck || barCheck){
+					if((!sameCheck || barCheck) && fret !== 0){
 						noteNumber++;
 					}
 					chordComplete[str] = true;
@@ -300,13 +293,9 @@ var getFingerings = function(){
 			for(var i = 0; i < strings; i++){
 				chordComplete[i] = false;
 			}
-			
-			//Change this later?
 
 			fingerings[fingerings.length] = temp;
-
 			temp = new Fingering(strings, frets);
-			
 			sameCheck = false;
 			noteNumber = 0;
 			fret -= (fretCount - 1);
@@ -315,7 +304,6 @@ var getFingerings = function(){
 			barCheck = false;
 		}
 	}
-	
 	return fingerings;
 }
 
@@ -363,8 +351,6 @@ var onNextFingering = function(){
 		currentFingering = 0;
 	}
 	updateFretBoard(fingerings[currentFingering].getBoard());
-	
-	console.log('Did it');
 }
 
 var onFretChange = function(e){
@@ -381,7 +367,6 @@ var onFretChange = function(e){
 		return;
 	}
 	
-	
 	frets = e.value;
 	currentFingering = 0;
 	createFretBoard();
@@ -395,15 +380,12 @@ var createFretBoard = function(){
 	initializeChords();
 	stringValues = setChord(chords[0], strings, frets);
 	fingerings = getFingerings();
-	console.log(fingerings[0].getBoard());
-	
 
     var guitarWidth = $(".guitar").css("width");
     guitarWidth = guitarWidth.substring(0, guitarWidth.length - 2);
 
     //The 2 here is for the width of the border of each fret
     var fretWidth = (guitarWidth / frets) - 2;
-
 
     var guitarHeight = $(".guitar").css("height");
     guitarHeight = guitarHeight.substring(0, guitarHeight.length-2);
@@ -413,7 +395,6 @@ var createFretBoard = function(){
     var stringMargin = ((guitarHeight / strings) + 5)/2;
     
     for(i = 0; i < frets; i++){
-
         $('.guitar').append('<div class=\'fret\' id=\'fret' + i + '\' style=\'width: ' + fretWidth + 'px\'></div>');
         for(j = 0; j < strings; j++){
             $('#fret' + i).append('<div class=\'string\' id=\'fret' + i + 'string' + j + '\' style=\'margin-top: ' + stringMargin + 'px; margin-bottom: ' + stringMargin + 'px;\'></div>');
@@ -472,14 +453,11 @@ $(document).ready(
 
     	createFretBoard();
 
-//----------------------------All board manipulation has to happen after this point----------------------        
-        
 		$('#btn_nextFingering').click(
 				function(){
 					onNextFingering();
 				}
 		);
-        
 
     }
 );
