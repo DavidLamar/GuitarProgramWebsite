@@ -59,6 +59,7 @@ a:hover {
     margin: auto;
     border: 1px solid #94AFB0;
     border-left-width: 5px; 
+    box-shadow: 0 0 15px black;
 }
 
 .fret {
@@ -67,6 +68,7 @@ a:hover {
     border-bottom: 0px;
     height: 150px;
     float: left;
+    box-shadow: 0 0 10px #2E3233;
 }
 
 .string {
