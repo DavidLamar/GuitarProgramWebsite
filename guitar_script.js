@@ -1,11 +1,13 @@
 var frets;
 var strings;
+
 var currentFingering;
-var fretBoard;
 var tuning;
 var NOTE;
-var stringValues;
 
+var fretBoard;
+var stringValues;
+var stringNotes;
 
 
 //----------------------------String/Fret Manipulation--------------------------------------------
@@ -17,8 +19,8 @@ var toggleFinger = function(fretString){
 
 //blackens all the strings
 var blackenStrings = function(){
-    for(i = 0; i < frets; i++){
-        for(j = 0; j < strings; j++){
+    for(var i = 0; i < frets; i++){
+        for(var j = 0; j < strings; j++){
             $('#fret' + i + 'string' + j).removeClass("stringHighlight");
         }
     }
@@ -117,11 +119,12 @@ var Note = {
 
 
 
-var NoteArray = function(n){
+var NoteArray = function(n, name){
 	var notes = [];
 	this.notes = n;
+	this.name = name;
 	this.indexOf = function(n){
-		for(i = 0; i < notes.length; i++){
+		for(var i = 0; i < notes.length; i++){
 			if(n === notes[i]){
 				return i;
 			}
@@ -136,7 +139,17 @@ var NoteArray = function(n){
 	this.noteAt = function(pos){
 		return notes[pos];
 	}
+	
+	this.contains = function(n){
+		for(var i = 0; i < notes.length; i++){
+			if(notes[i] === n || notes[i] === Note.getAlternate(n)){
+				return true;
+			}
+		}
+		return false;
+	}
 }
+
 
 //Checks if an array is all false
 var allFalse = function(array){
@@ -163,8 +176,8 @@ var allTrue = function(array){
 
 var Fingering = function(numStrings, numFrets){
 	var board = [];
-	for(i = 0; i < numStrings; i++){
-		for(j = 0; j < numFrets; j++){
+	for(var i = 0; i < numStrings; i++){
+		for(var j = 0; j < numFrets; j++){
 			board[i][j] = false;
 		}
 	}
@@ -175,6 +188,39 @@ var Fingering = function(numStrings, numFrets){
 	this.getPos = function(string, fret){
 		return board[string][fret];
 	}
+}
+
+var initializeFretBoard = function(strs, frts){
+	sv = [];
+	
+	for(var s = 0; s < strs; s++){
+		temp = [];
+		for(var f = 0; f < frts; f++){
+			temp[f] = NOTE.noteAt( (NOTE.indexOf( tuning.noteAt(s) ) + f) % 12 );
+		}
+		
+		sv[s] = new NoteArray(temp);
+	}
+	
+	return sv;
+}
+
+var setChord = function(newNoteArray, strings, frets){
+	var sv = [];
+	
+	for(var s = 0; s < strings; s++){
+		sv[s] = [];
+		for(var f = 0; f < frets; f++){
+			if(newNoteArray.contains( stringNotes[s].noteAt(f) )){
+				sv[s][f] = true;
+			} else {
+				sv[s][f] = false;
+			}
+			console.log(sv[s][f]);
+		}
+	}
+	
+	return stringValues
 }
 
 var getFingerings = function(){
@@ -190,7 +236,7 @@ var getFingerings = function(){
 	var barCheck = false;
 	
 	//initialize chordComplete to all false:
-	for(i = 0; i < strings; i++){
+	for(var i = 0; i < strings; i++){
 		chordComplete[i] = false;
 	}
 	
@@ -220,14 +266,18 @@ var getFingerings = function(){
 frets = 12;
 strings = 6;
 currentFingering = 0;
-fretBoard = [];
 //This is just for standard tuning; Change this later when users can enter in different tunings
 tuning = new NoteArray([Note.E, Note.B, Note.G, Note.D, Note.A, Note.E]);
 NOTE = new NoteArray([Note.A, Note.A_SHARP, Note.B, Note.C, Note.C_SHARP, Note.D, Note.D_SHARP, Note.E, Note.F, Note.F_SHARP, Note.G, Note.G_SHARP]);
-stringValues = [];
 
 $(document).ready(
     function(){
+    	
+    	stringNotes = initializeFretBoard(strings, frets);
+    	//This tests it on A
+    	stringValues = setChord(new NoteArray([Note.A, Note.C_SHARP, Note.E], "A"), strings, frets);
+    	
+    	
         var guitarWidth = $(".guitar").css("width");
         guitarWidth = guitarWidth.substring(0, guitarWidth.length - 2);
 
