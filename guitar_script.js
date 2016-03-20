@@ -8,6 +8,7 @@ var fretBoard;
 var stringValues;
 var stringNotes;
 var chords;
+var currentChord;
 
 
 //----------------------------String/Fret Manipulation--------------------------------------------
@@ -219,6 +220,7 @@ var initializeFretBoard = function(strs, frts){
 
 var setChord = function(newNoteArray, strings, frets){
 	var sv = [];
+	currentChord = newNoteArray;
 	
 	for(var s = 0; s < strings; s++){
 		sv[s] = [];
@@ -378,7 +380,7 @@ var createFretBoard = function(){
 	
 	stringNotes = initializeFretBoard(strings, frets);
 	initializeChords();
-	stringValues = setChord(chords[0], strings, frets);
+	stringValues = setChord(currentChord, strings, frets);
 	fingerings = getFingerings();
 
     var guitarWidth = $(".guitar").css("width");
@@ -401,7 +403,7 @@ var createFretBoard = function(){
         }
     }
     
-    updateFretBoard(fingerings[0].getBoard());
+    updateFretBoard(fingerings[currentFingering].getBoard());
 }
 
 
@@ -417,36 +419,102 @@ tuning = new NoteArray([Note.E, Note.B, Note.G, Note.D, Note.A, Note.E]);
 NOTE = new NoteArray([Note.A, Note.A_SHARP, Note.B, Note.C, Note.C_SHARP, Note.D, Note.D_SHARP, Note.E, Note.F, Note.F_SHARP, Note.G, Note.G_SHARP]);
 chords = [
               new NoteArray([Note.A, Note.C_SHARP, Note.E], "A"),
+              new NoteArray([Note.A, Note.C_SHARP, Note.E, Note.G_SHARP], "Amaj7"),
+              
               new NoteArray([Note.A, Note.C, Note.E], "A Minor"),
+              new NoteArray([Note.A, Note.C, Note.E, Note.G], "Am7"),
+              
+              new NoteArray([Note.A, Note.C_SHARP, Note.E, Note.G], "A7"),
+              
               new NoteArray([Note.A_SHARP, Note.D, Note.E_SHARP], "A Sharp"),
+              new NoteArray([Note.A_SHARP, Note.D, Note.F, Note.A], "A#maj7"),      
+              
               new NoteArray([Note.A_SHARP, Note.C_SHARP, Note.E_SHARP], "A Sharp Minor"),
+              new NoteArray([Note.A_SHARP, Note.C_SHARP, Note.E_SHARP, Note.G_SHARP], "A#m7"),
+              
+              new NoteArray([Note.A_SHARP, Note.D, Note.E_SHARP, Note.G_SHARP], "A#7"),
               
               new NoteArray([Note.B, Note.D_SHARP, Note.F_SHARP], "B"),
+              new NoteArray([Note.B, Note.D_SHARP, Note.F_SHARP, Note.A_SHARP], "Bmag7"),
+              
               new NoteArray([Note.B, Note.D, Note.F_SHARP], "B Minor"),
+              new NoteArray([Note.B, Note.D, Note.F_SHARP, Note.A], "Bm7"),
+              
+              new NoteArray([Note.B, Note.D_SHARP, Note.F_SHARP, Note.A], "B7"),
               
               new NoteArray([Note.C, Note.E, Note.G], "C"),
+              new NoteArray([Note.C, Note.E, Note.G, Note.B], "Cmaj7"),
+              
               new NoteArray([Note.C, Note.E_FLAT, Note.G], "C Minor"),
+              new NoteArray([Note.C, Note.E_FLAT, Note.G, Note.B_FLAT], "Cm7"),
+              
+              new NoteArray([Note.C, Note.E, Note.G, Note.B_FLAT], "C7"),
+              
               new NoteArray([Note.C_SHARP, Note.E_SHARP, Note.G_SHARP], "C Sharp"),
+              new NoteArray([Note.C_SHARP, Note.E_SHARP, Note.G_SHARP, Note.B_SHARP], "C#maj7"),
+              
               new NoteArray([Note.C_SHARP, Note.E, Note.G_SHARP], "C Sharp Minor"),
+              new NoteArray([Note.C_SHARP, Note.E, Note.B], "C#m7"),
+              
+              new NoteArray([Note.C_SHARP, Note.E_SHARP, Note.G_SHARP, Note.B], "C#7"),
               
               new NoteArray([Note.D, Note.F_SHARP, Note.A], "D"),
+              new NoteArray([Note.D, Note.F_SHARP, Note.A, Note.C_SHARP], "Dmaj7"),
+              
               new NoteArray([Note.D, Note.F, Note.A], "D Minor"),
+              new NoteArray([Note.D, Note.F, Note.A, Note.C], "Dm7"),
+              
+              new NoteArray([Note.D, Note.F_SHARP, Note.A, Note.C], "D7"),
+              
               new NoteArray([Note.D_SHARP, Note.G, Note.A_SHARP], "D Sharp"),
+              new NoteArray([Note.D_SHARP, Note.G, Note.A_SHARP, Note.D], "D#maj7"),
+              
               new NoteArray([Note.D_SHARP, Note.F_SHARP, Note.A_SHARP], "D Sharp Minor"),
+              new NoteArray([Note.D_SHARP, Note.F_SHARP, Note.A_SHARP, Note.C_SHARP], "D#m7"),
+              
+              new NoteArray([Note.D_SHARP, Note.G, Note.A_SHARP, Note.C_SHARP], "D#7"),
               
               new NoteArray([Note.E, Note.G_SHARP, Note.B], "E"),
+              new NoteArray([Note.E, Note.G_SHARP, Note.B, Note.D_SHARP], "Emaj7"),
+              
               new NoteArray([Note.E, Note.G, Note.B], "E Minor"),
+              new NoteArray([Note.E, Note.G, Note.B, Note.D], "Em7"),
+              
+              new NoteArray([Note.E, Note.G_SHARP, Note.B, Note.D], "E7"),
               
               new NoteArray([Note.F, Note.A, Note.C], "F"),
+              new NoteArray([Note.F, Note.A, Note.C, Note.E], "Fmaj7"),
+              
               new NoteArray([Note.F, Note.A_FLAT, Note.C], "F Minor"),
+              new NoteArray([Note.F, Note.A_FLAT, Note.C, Note.E_FLAT], "Fm7"),
+              
+              new NoteArray([Note.F, Note.A, Note.C, Note.E_FLAT], "F7"),
+              
               new NoteArray([Note.F_SHARP, Note.A_SHARP, Note.C_SHARP], "F Sharp"),
+              new NoteArray([Note.F_SHARP, Note.A_SHARP, Note.C_SHARP, Note.F], "F#maj7"),
+              
               new NoteArray([Note.F_SHARP, Note.A, Note.C_SHARP], "F Sharp Minor"),
+              new NoteArray([Note.F_SHARP, Note.A, Note.C_SHARP, Note.E], "F#m7"),
+
+              new NoteArray([Note.F_SHARP, Note.A_SHARP, Note.C_SHARP, Note.E], "F#7"),
               
               new NoteArray([Note.G, Note.B, Note.D], "G"),
+              new NoteArray([Note.G, Note.B, Note.D, Note.F_SHARP], "Gmaj7"),
+              
               new NoteArray([Note.G, Note.B_FLAT, Note.D], "G Minor"),
+              new NoteArray([Note.G, Note.B_FLAT, Note.D, Note.F], "Gm7"),
+              
+              new NoteArray([Note.G, Note.B, Note.D, Note.F], "G7"),
+              
               new NoteArray([Note.G_SHARP, Note.B_SHARP, Note.D_SHARP], "G Sharp"),
+              new NoteArray([Note.G_SHARP, Note.B_SHARP, Note.D_SHARP, Note.G], "G#maj7"),
+              
               new NoteArray([Note.G_SHARP, Note.B, Note.D_SHARP], "G Sharp Minor"),
+              new NoteArray([Note.G_SHARP, Note.B, Note.D_SHARP, Note.F_SHARP], "G#m7"),
+              new NoteArray([Note.G_SHARP, Note.B_SHARP, Note.D_SHARP, Note.F_SHARP], "G Sharp")
               ];
+
+currentChord = chords[0];
 
 $(document).ready(
     function(){
